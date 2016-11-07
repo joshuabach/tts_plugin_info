@@ -73,7 +73,7 @@ def main():
             json_data = str(sys.argv[1]) + '=' * (4 - len(sys.argv[1]) % 4)
             jobject = json.loads(str(base64.urlsafe_b64decode(json_data)))
             action = jobject['action']
-            if action == "get_params":
+            if action == "parameter":
                 print list_params()
             else:
                 if action == "request":
