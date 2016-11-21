@@ -12,11 +12,11 @@ import traceback
 def list_params():
     RequestParams = []
     ConfParams = []
-    return json.dumps({'conf_params': ConfParams, 'request_params': RequestParams, 'version':'dev'})
+    return json.dumps({'result':'ok', 'conf_params': ConfParams, 'request_params': RequestParams, 'version':'dev'})
 
 def request_info(JObject):
     Credential = info_to_credential(JObject)
-    return json.dumps({'credential': Credential, 'state': 'user_info'})
+    return json.dumps({'result':'ok', 'credential': Credential, 'state': 'user_info'})
 
 def info_to_credential(JObject):
     Version = JObject['tts_version']
