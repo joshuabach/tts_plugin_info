@@ -16,7 +16,6 @@ def list_params():
     return json.dumps({'result':'ok', 'conf_params': ConfParams, 'request_params': RequestParams, 'version':'dev'})
 
 def request_info(JObject):
-    time.sleep(2)
     Credential = info_to_credential(JObject)
     return json.dumps({'result':'ok', 'credential': Credential, 'state': 'user_info'})
 
@@ -66,7 +65,6 @@ def oidc_key_to_type(Key):
     return "text"
 
 def revoke_info():
-    time.sleep(1)
     return json.dumps({'result': 'ok'})
 
 
