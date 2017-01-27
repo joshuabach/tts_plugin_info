@@ -1,5 +1,5 @@
-# tts_plugin_info
-A simple plugin for TTS, displaying all the informations the plugin gets.
+# watts_plugin_info
+A simple plugin for WaTTS, displaying all the informations the plugin gets.
 
 *This is still in development and not yet meant for production*
 
