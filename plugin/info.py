@@ -20,15 +20,15 @@ def request_info(JObject):
     return json.dumps({'result':'ok', 'credential': Credential, 'state': 'user_info'})
 
 def info_to_credential(JObject):
-    Version = JObject['tts_version']
-    UserId = JObject['tts_userid']
+    Version = JObject['watts_version']
+    UserId = JObject['watts_userid']
     UserInfo = JObject['user_info']
     UserId_data = str(UserId)+ '=' * (4 - len(UserId) % 4)
     DecodedUserId = str(base64.urlsafe_b64decode(UserId_data))
     OidcCredential = [
-        {'name':'TTS version', 'type':'text', 'value':Version},
-        {'name':'TTS userid', 'type':'text', 'value':UserId},
-        {'name':'TTS userid (decoded)', 'type':'text', 'value':DecodedUserId}]
+        {'name':'WaTTS version', 'type':'text', 'value':Version},
+        {'name':'WaTTS userid', 'type':'text', 'value':UserId},
+        {'name':'WaTTS userid (decoded)', 'type':'text', 'value':DecodedUserId}]
 
     for Key in UserInfo:
         KeyName = oidc_key_to_name(Key)
