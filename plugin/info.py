@@ -39,7 +39,7 @@ def info_to_credential(JObject):
         OidcCredential = OidcCredential + NewObj
 
     Json = json.dumps(JObject, sort_keys=True, indent=4, separators=(',',': '))
-    WholeJsonObject = [{'name':'json object', 'type':'textarea', 'value':Json}]
+    WholeJsonObject = [{'name':'json object', 'type':'textfile', 'value':Json, 'rows':20, 'cols':50, 'save_as':'info.json'}]
     OidcCredential = OidcCredential + WholeJsonObject
     return OidcCredential
 
