@@ -10,10 +10,12 @@ import sys
 import traceback
 import time
 
+VERSION="1.1.0"
+
 def list_params():
     RequestParams = []
     ConfParams = []
-    return json.dumps({'result':'ok', 'conf_params': ConfParams, 'request_params': RequestParams, 'version':'dev'})
+    return json.dumps({'result':'ok', 'conf_params': ConfParams, 'request_params': RequestParams, 'version':VERSION})
 
 def request_info(JObject):
     Credential = info_to_credential(JObject)
@@ -83,9 +85,9 @@ def main():
             elif Action == "revoke":
                 print revoke_info()
             else:
-                print json.dumps({"error": "unknown_action", "details": action})
+                print json.dumps({"result":"error", "user_msg":"unknown_action"})
         else:
-            print json.dumps({"error": "no_parameter"})
+            print json.dumps({"result":"error", "user_msg":"no_parameter"})
     except Exception, E:
         TraceBack = traceback.format_exc(),
         LogMsg = "the plugin failed with %s - %s"%(str(E), TraceBack)
