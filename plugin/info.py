@@ -36,7 +36,7 @@ def info_to_credential(JObject):
         KeyName = oidc_key_to_name(Key)
         Type = oidc_key_to_type(Key)
         Name = "%s"%KeyName
-        Value = UserInfo[Key]
+        Value = str(UserInfo[Key])
         NewObj = [{'name':Name, 'type':Type, 'value':Value  }]
         OidcCredential = OidcCredential + NewObj
 
