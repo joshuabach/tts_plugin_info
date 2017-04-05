@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Test the WaTTS plugin in the current directory using indigo-dc/watts-plugin-tester
+# Test a WaTTS plugin using indigo-dc/watts-plugin-tester
 #
 #
 # Run a test for each input file of the form:
