@@ -15,9 +15,11 @@
 
 
 setup_plugin_tester() {
+    echo '==>' "Obtaining WaTTS plugin tester from $PLUGIN_TESTER_REPO"
     rm -rf $PLUGIN_TESTER_BUILD_DIR
     git clone $PLUGIN_TESTER_REPO $PLUGIN_TESTER_BUILD_DIR || exit
 
+    echo '==>' "Building WaTTS plugin tester"
     pushd $PLUGIN_TESTER_BUILD_DIR || exit
     ./utils/compile.sh || exit
     popd
@@ -32,6 +34,8 @@ test_plugin() {
 run_tests() {
     action=$1
 
+    trap 'rm found_at_least_one_input' EXIT
+
     find test -name "${action}_*.json" \
         | (while read input
            do
@@ -41,25 +45,33 @@ run_tests() {
                expected_result=${keys##*_}
 
                [[ $expected_result != fail && $expected_result != pass ]] && continue
+               touch found_at_least_one_input
 
                echo '==>' "Running $action test $name with input '$input'"
-               echo '==>' "Expecting it to $expected_result"
+               echo '==>' "Expecting test $name to $expected_result"
+
 
                test_plugin $action $input
                status=$?
 
                if [[ $status -eq 0 && $expected_result == fail ]]
                then
-                   echo '==>' "But it passed"
+                   echo '==>' "But test $name passed (should have failed)"
                    exit 1
                elif [[ $status -ne 0 && $expected_result == pass ]]
                then
-                   echo '==>' "But it failed with exit status $status"
+                   echo '==>' "But test $name failed with exit status $status (should have passed)"
                    exit $status
                else
-                   echo '==>' "And it did $expected_result"
+                   echo '==>' "And test $name did $expected_result (as expected)"
                fi
+
            done) || exit
+
+    if [[ ! -f found_at_least_one_input ]]
+    then
+        echo '==>' "No input files found for $action tests"
+    fi
 }
 
 
