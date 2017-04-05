@@ -1,17 +1,19 @@
 #!/bin/sh
 #
-# Test it using indigo-dc/watts-plugin-tester
+# Test the WaTTS plugin in the current directory using indigo-dc/watts-plugin-tester
+#
 #
 # Run a test for each input file of the form:
 #   test/{parameter,request,revoke}_*_{pass,fail}.json
 #
-# Author: Joshua Bachmeier
+# Author: Joshua Bachmeier <uwdkl@student.kit.edu>
 #
 
 
 # Parameters (passed as environment variables)
 : ${PLUGIN_TESTER_REPO:="https://github.com/indigo-dc/watts-plugin-tester.git"}
 : ${PLUGIN_TESTER_BUILD_DIR:="./plugin-tester"}
+: ${PLUGIN_PATH:="plugin/info.py"}
 
 
 setup_plugin_tester() {
@@ -28,7 +30,7 @@ setup_plugin_tester() {
 }
 
 test_plugin() {
-    args="test plugin/info.py --plugin-action=$1 --json=$2"
+    args="test $PLUGIN_PATH --plugin-action=$1 --json=$2"
 
     $PLUGIN_TESTER_BUILD_DIR/watts-plugin-tester $args
 }
