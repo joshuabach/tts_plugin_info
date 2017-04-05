@@ -5,16 +5,18 @@
 # Author: Joshua Bachmeier
 #
 
+
 # Parameters (passed as environment variables)
 : ${PLUGIN_TESTER_REPO:="https://github.com/indigo-dc/watts-plugin-tester.git"}
+: ${PLUGIN_TESTER_BUILD_DIR:="./plugin-tester"}
 
 
 setup_plugin_tester() {
-    rm -rf /tmp/plugin-tester
-    git clone $PLUGIN_TESTER_REPO /tmp/plugin-tester || exit
+    rm -rf $PLUGIN_TESTER_BUILD_DIR
+    git clone $PLUGIN_TESTER_REPO $PLUGIN_TESTER_BUILD_DIR || exit
 
-    pushd /tmp/plugin-tester || exit
-    go build || exit
+    pushd $PLUGIN_TESTER_BUILD_DIR || exit
+    ./utils/compile.sh || exit
     popd
 }
 
@@ -22,7 +24,7 @@ test_plugin() {
     echo ${2:-'null'} > /tmp/plugin_input || return
     args="test plugin/info.py --plugin-action=$1 --json=/tmp/plugin_input"
 
-    /tmp/plugin-tester/plugin-tester $args
+    $PLUGIN_TESTER_BUILD_DIR/plugin-tester $args
 }
 
 
