@@ -42,22 +42,22 @@ run_tests() {
 
                [[ $expected_result != fail && $expected_result != pass ]] && continue
 
-               echo $0: "Running $action test $name with input '$input'"
-               echo $0: "Expecting it to $expected_result"
+               echo '==>' "Running $action test $name with input '$input'"
+               echo '==>' "Expecting it to $expected_result"
 
                test_plugin $action $input
                status=$?
 
                if [[ $status -eq 0 && $expected_result == fail ]]
                then
-                   echo $0: "But it passed"
+                   echo '==>' "But it passed"
                    exit 1
                elif [[ $status -ne 0 && $expected_result == pass ]]
                then
-                   echo $0: "But it failed with exit status $status"
+                   echo '==>' "But it failed with exit status $status"
                    exit $status
                else
-                   echo $0: "And it did $expected_result"
+                   echo '==>' "And it did $expected_result"
                fi
            done) || exit
 }
