@@ -16,8 +16,10 @@
 
 setup_plugin_tester() {
     echo '==>' "Obtaining WaTTS plugin tester from $PLUGIN_TESTER_REPO"
-    rm -rf $PLUGIN_TESTER_BUILD_DIR
-    git clone $PLUGIN_TESTER_REPO $PLUGIN_TESTER_BUILD_DIR || exit
+    if [[ ! -d $PLUGIN_TESTER_BUILD_DIR ]]
+    then
+       git clone $PLUGIN_TESTER_REPO $PLUGIN_TESTER_BUILD_DIR || exit
+    fi
 
     echo '==>' "Building WaTTS plugin tester"
     pushd $PLUGIN_TESTER_BUILD_DIR || exit
