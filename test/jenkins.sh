@@ -2,6 +2,9 @@
 #
 # Test it using indigo-dc/watts-plugin-tester
 #
+# Run a test for each input file of the form:
+#   test/{parameter,request,revoke}_*_{pass,fail}.json
+#
 # Author: Joshua Bachmeier
 #
 
@@ -21,16 +24,48 @@ setup_plugin_tester() {
 }
 
 test_plugin() {
-    echo ${2:-'null'} > /tmp/plugin_input || return
-    args="test plugin/info.py --plugin-action=$1 --json=/tmp/plugin_input"
+    args="test plugin/info.py --plugin-action=$1 --json=$2"
 
-    $PLUGIN_TESTER_BUILD_DIR/plugin-tester $args
+    $PLUGIN_TESTER_BUILD_DIR/watts-plugin-tester $args
+}
+
+run_tests() {
+    action=$1
+
+    find test -name "${action}_*.json" \
+        | (while read input
+           do
+               keys=${input%.json}
+               keys=${keys#test/${action}_}
+               name=${keys%_*}
+               expected_result=${keys##*_}
+
+               [[ $expected_result != fail && $expected_result != pass ]] && continue
+
+               echo $0: "Running $action test $name with input '$input'"
+               echo $0: "Expecting it to $expected_result"
+
+               test_plugin $action $input
+               status=$?
+
+               if [[ $status -eq 0 && $expected_result == fail ]]
+               then
+                   echo $0: "But it passed"
+                   exit 1
+               elif [[ $status -ne 0 && $expected_result == pass ]]
+               then
+                   echo $0: "But it failed with exit status $status"
+                   exit $status
+               else
+                   echo $0: "And it did $expected_result"
+               fi
+           done) || exit
 }
 
 
-setup_plugin_tester
 
-# TODO More tests than one per action?
-test_plugin parameter "$PLUGIN_PARAMETER_INPUT" || exit
-test_plugin request "$PLUGIN_REQUEST_INPUT" || exit
-test_plugin revoke "$PLUGIN_REVOKE_INPUT" || exit
+setup_plugin_tester || exit
+
+run_tests parameter || exit
+run_tests request || exit
+run_tests revoke || exit
