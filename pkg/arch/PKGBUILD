@@ -1,0 +1,32 @@
+#
+# PKGBUILD for the WaTTS info plugin
+# Clones github.com:indigo-dc/tts_plugin_info and checks out master.
+#
+# Under any pacman based distro (e.g. Archlinux) install `base-devel' and then run:
+#  $ cd pkg/arch && makepkg
+#
+# Maintainer: Joshua Bachmeier <uwdkl@student.kit.edu>
+#
+
+pkgname=watts-plugin-info
+url="https://github.com/indigo-dc/tts_plugin_info"
+pkgver=v1.1.0.r1.g3c86611
+pkgrel=1
+pkgdesc="WaTTS info plugin"
+arch=(any)
+license=(Apache)
+depends=(watts python2)
+source=("watts-plugin-info::git+https://github.com/indigo-dc/tts_plugin_info.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd "$pkgname"
+  git describe --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+    cd "$srcdir/$pkgname"
+
+    mkdir -p "$pkgdir/var/lib/watts/plugins"
+    install -m733 -t "$pkgdir/var/lib/watts/plugins" plugin/*
+}
