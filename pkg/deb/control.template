@@ -1,0 +1,7 @@
+Package: %package
+Version: %version
+Architecture: all
+Depends: tts, python
+Maintainer: Joshua Bachmeier <uwdkl@student.kit.edu>
+Description: WaTTS Info Plugin
+ A simple plugin for WaTTS, displaying all the informations the plugin gets
