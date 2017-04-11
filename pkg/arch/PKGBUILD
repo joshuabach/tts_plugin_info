@@ -25,5 +25,5 @@ package() {
     cd "${srcdir}/${_pkgname}-${pkgver}"
 
     mkdir -p "${pkgdir}/var/lib/watts/plugins"
-    cp plugin/*.py "${pkgdir}/var/lib/watts/plugins"
+    cp plugin/* "${pkgdir}/var/lib/watts/plugins"
 }
