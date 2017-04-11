@@ -31,7 +31,7 @@ sed -e "s/%package/${pkgname}/" \
 # Package
 pushd "${srcdir}"
 mkdir -p "${pkgdir}/var/lib/watts/plugins"
-install -m733 -t "${pkgdir}/var/lib/watts/plugins" plugin/info.py
+cp plugin/* "${pkgdir}/var/lib/watts/plugins"
 popd
 
 # Finale

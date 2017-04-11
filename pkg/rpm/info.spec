@@ -37,10 +37,10 @@ tar xf v%version.tar.gz
 %install
 cd $RPM_SOURCE_DIR/%_name-%version
 mkdir -p "$RPM_BUILD_ROOT/var/lib/watts/plugins"
-install -m733 -t "$RPM_BUILD_ROOT/var/lib/watts/plugins" plugin/info.py
+cp plugin/* "$RPM_BUILD_ROOT/var/lib/watts/plugins"
 
 %clean
 rm -rf %RPM_BUILD_ROOT
 
 %files
-/var/lib/watts/plugins/info.py
+/var/lib/watts/plugins/*
